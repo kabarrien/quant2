@@ -1,3 +1,6 @@
 Karolina Barrientos
 AQMSS II 
 Assignment 1
+install.packages("gapminder")
+library(gapminder)
+write.csv(gapminder, "data/gapminder.csv",row.names = FALSE)
