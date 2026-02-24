@@ -122,4 +122,62 @@ ggsave("coefplot_lpm_logit.png", p3, width = 6, height = 4)
 #c)
 In this dataset, the LPM and logit lead to similar conclusions. Essentially that age, education, and income are all postively associated with turnout, and gender has a modest or negligible effect. The differences between lpm and logit matter more when predicted probabilites are close to the boundary (0 or 1). In this simple, turnout is relatively common, so the linnear approximation works reasonably well. 
 
+#2 Part 2: Take-Home Exercises(STAR- High School Graduation)
 
+#2.1 data prep
+#a) loading star.csv and creating factor variables
+star = read.csv("https://github.com/franvillamil/AQM2/raw/refs/heads/master/datasets/star/star.csv")
+
+star$classtype = factor(star$classtype, levels = c(1, 2, 3), labels = c("small", "regular", "regular+aide"))
+
+star$race = factor(star$race, levels = c(1, 2, 3, 4, 5, 6), labels = c("White", "Black", "Asian", "Hispanic", "Native American", "Other"))
+
+#b)creating binary variable for small
+
+star$small <- ifelse(star$classtype== "small", 1, 0 )
+
+summary(star)
+view(star)
+
+#c) droping missing values on hsgrad
+
+star1 = star %>%
+  drop_na(hsgrad)
+
+view(star1)
+
+#3047 variables remain in the data set after removing observations with missing values on hsgrad.
+
+#d computing high school graduation reate overall and by class type
+
+hsgradratclass = star1 %>%
+  group_by(classtype)%>%
+  summarise(turnout = mean(hsgrad))
+
+#2.2 LPM and logit
+
+#a) estimate an lpm predicting hsgrad from small:
+
+lpm1 = lm(hsgrad ~ small, data = star1)
+
+modelsummary(lpm1)
+
+#b) estimate a logit model with the same predictor: 
+
+logit1 = glm(hsgrad ~ small, family = binomial, data = star1)
+
+modelsummary(logit1)
+
+#c) SKIPPPP
+
+#d) AME from logit1
+
+avg_slopes(logit1)
+
+#2.3 Adding controls
+
+#estimate both LPM and logit with controls:
+
+lpm2 = lm(hsgrad ~ small + race + yearssmall, data = star1)
+
+logit2 = glm(hsgrad ~ small + race + yearssmall), family = binomial, data = star1)
