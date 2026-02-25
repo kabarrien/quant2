@@ -56,9 +56,9 @@ ggplot(turnout_by_edu, aes(x = factor(education), y = turnout)) +
 lpm = lm(voted~age+education+income+female,data=df)
 tidy(lpm)
 
-#c) Tbe coefficient on education represnts the esitmated change the in the probablity of voting for each additional year or education, holding the other variables constant. 
+#c) The coefficient on education represents the estimated change the in the probability of voting for each additional year or education, holding the other variables constant. 
 
-#d) check predicated probablities
+#d) check predicated probabilities
 preds_lpm = predict(lpm)
 
 sum(preds_lpm < 0)
@@ -177,7 +177,7 @@ modelsummary(logit1) #small- 0.0271 intercept- 1.60
 
 coef(lpm1) -> #small = 0.00375
 
-#c) The LPM coefficient on small is 0.00375, meaning students that are in small class re estimated to be about 0.4 percentage points more likely to gradaute than students in non-small classes. A very small percentage. 
+#c) The LPM coefficient on small is 0.00375, meaning students that are in small class estimated to be about 0.4 percentage points more likely to graduate than students in non-small classes. A very small percentage. 
 
 #d) AME from logit1
 
@@ -205,11 +205,11 @@ coef(logit2)
 coef(lpm1) #small= 0.00375
 coef(lpm2) #small= - 0.0756
 
-#when taking controls into account the coeff for small changes dramatically, from a postive insignificant effect to a negative and significant effect. It is possible that this change happened because of the inclusion of yearssmall, which entails the treatment intensity by looking at how long students were exposed to small classes.
+#when taking controls into account the coeff for small changes dramatically, from a positive insignificant effect to a negative and significant effect. 
+#It is possible that this change happened because of the inclusion of yearssmall, which entails the treatment intensity by looking at how long students were exposed to small classes.
 #For randomization, this could mean that it worked for the initial assignment but not for the intensity of exposure. Resulting in different coeffs. 
 
-
-#c) interpret the coefficient on yearsmall from the logit mode.
+#c) interpret the coefficient on yearssmall from the logit mode.
 
 library(marginaleffects)
 
