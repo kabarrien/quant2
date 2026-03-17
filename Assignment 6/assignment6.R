@@ -246,7 +246,12 @@ overallatt_cs=aggte(out_nyt,type = "simple")
 
 overallatt_cs #-0.398
 
-#b) Produce and save an event-study plot for this specification. 
+#b) Produce and save an event-study plot for this specification.
+
+es_nyt <- aggte(out_nyt, type = "dynamic")
+
+ggdid(es_nyt)
+
 
 #c) Comment Discuss the trade-off between the two control group choices. Under what conditions would you prefer never treated as the control
 
