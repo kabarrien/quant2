@@ -236,6 +236,16 @@ ggsave("plobstrap.png")
 
 #a) Re-estimate the CS model using not yet treated counties as the control group. Report the overall ATT. 
 
+out_nyt <- att_gt(yname = "lemp", gname = "first.treat",idname = "countyreal", tname = "year", xformla = ~1, data = mpdta,
+  est_method = "reg",
+  control_group = "notyettreated")
+
+summary(out_nyt)
+
+overallatt_cs=aggte(out_nyt,type = "simple")
+
+overallatt_cs #-0.398
+
 #b) Produce and save an event-study plot for this specification. 
 
 #c) Comment Discuss the trade-off between the two control group choices. Under what conditions would you prefer never treated as the control
