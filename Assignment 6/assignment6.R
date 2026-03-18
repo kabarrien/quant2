@@ -165,7 +165,7 @@ mpdta = mpdta %>%
 
 naive_twfe = feols(lemp ~ treated_post|countyreal+year, data = mpdta)
 
-naive_twfe
+naive_twfe #-0.0365
 
 #The coefficient on treated_post is -0.036549 represents a decline of about 3.65% on employment and is statistically significant. 
 #The implicit assumption being made here is that the treatment effect is identical across all cohorts of treatment (the 2004 cohort reacts the same as the 2007 group), and are constant over time (the effect in the 1st year of treatment is the same as the effect in the last year). 
@@ -181,7 +181,7 @@ summary(out)
 #for overall ATT estimate:
 
 overall_att<- aggte(out, type = "simple")
-summary(overall_att)
+summary(overall_att) #-0.04
 
 #OR??
 
@@ -203,6 +203,8 @@ summary(es)
 #to make the event study plot 
 
 esplot <- ggdid(es)
+
+esplot
 
 ggsave("esplot.png")
 
@@ -230,7 +232,7 @@ ggsave("plobstrap.png")
 
 #c) In a comment (2–3 sentences), reflect on the limitations of pre-testing. Even if we cannot reject parallel trends in the pre-period, can we be certain the assumption holds during the post-treatment period? What is the pre-test actually telling us, and what is it not telling us?
 
-#COMMENT 
+#Pretesting allows us to make the assumption that are research-design should work by showing that in the control and treated groups have moved in the same direction in the past are in fact comparable groups. However, the pretesting can not confirm or give the ability to assume that in the future the two groups will move together. By not rejecting the null hypothesis does not automatically mean that we accept the hypothesis. The pretest allows to increase our confidence in the model.
 
 #2.4 Comparing control group specifications 
 
@@ -244,19 +246,37 @@ summary(out_nyt)
 
 overallatt_cs=aggte(out_nyt,type = "simple")
 
-overallatt_cs #-0.398
+overallatt_cs #-0.0398
+
+#The estimate of -0.0398 is about the same as the estimate from the 2.2b. They have same sign and magnitude. 
 
 #b) Produce and save an event-study plot for this specification.
 
 es_nyt <- aggte(out_nyt, type = "dynamic")
 
-ggdid(es_nyt)
+summary(es_nyt)
+
+esnytplot <- ggdid(es_nyt)
+
+ggsave("esnytplot.png")
+
+#The trends in both plots, the event study using not-yet treated as the control and the event study using never treated show similar patterns. I don't believe using the broader control group changes the conclusions. 
 
 
 #c) Comment Discuss the trade-off between the two control group choices. Under what conditions would you prefer never treated as the control
 
+#In this part we are considering two cases, one where we use not yet treated groups as the control and the other where we are considering the specification of an events study.By considering the not yet treated group as a control we are maximizing the sample size but is riskier as it does not assume anticipation effects, in where units can change behavior before their actual treatment date. Never treated as the control is "cleaner and has no risk of treatment contamination at all. We would prefer to use never treated as the control when we have a large enough sample size. 
+
 #2.5 Discussion: Why does TWFE fail in staggered settings? 
 
+#a) In a comment (3–5 sentences), explain intuitively why the naive TWFE estimator can produce misleading results in staggered DiD settings. What is the “forbidden comparison” problem? Which units get used as the control group in a way that is problematic, and why is that a problem if treatment effects are heterogeneous across cohorts or over time?
+
+#The native TWFE estimator can produce miss leading results in staggered settings because it uses a weighted average in the calculations for overall treatment effect for all possible 2X2 DiD combinations. This is a forbidden comparison because units treated later in the sample are used as the control group for those treated later.If treatment effects are heterogeneous across cohorts, meaning they change over time or vary by cohort, the early-treated units are no longer a stable baseline as they ar still experiencing their own evolving treatment effect. This can result in a biased estimate during the regression.
+
+
+#b) Compare the TWFE estimate from question 2.2a to the Callaway-Santanna estimate from question 2.2b. Are they similar or different? In a comment, based on the eventstudy pre-trends from question 2.2c, which estimate do you find more credible and why?
+
+#The TWFE estimate from 2.2a is -0.0365 and the estimate from the Callaway-Santanna aggregate estimate was -0.04. These two estimates are fairly close and differ only slightly but they were found using different mathematical methods, where the CS aggregate estimate has less noise as it uses the never treated group as the control. 
 
 
 
