@@ -118,5 +118,6 @@ ggsave("africa_gdp.pdf", width = 7, height = 6)
 ggplot(africa) + geom_sf(aes(fill = gdpPercap), color = "white", linewidth = 0.3) + scale_fill_viridis_c(option = "magma", na.value = "grey80", name = "GDP per capita") + theme_void() + labs(title = "GDP per capita == Africa (with borders)")
 
 #adding white country borders significantly improves readability, especially for smaller countries where adjacent fill colors alone make it hard to distinguish units. The thin white line demarcate each country without competing visually with the fill scale, making it easier to identify specific countries of interest and to compare neighbors. 
----------------------------------------------
-##2 Take-Home Assignment- Point Data and Spatial Joins ===============================
+
+
+
