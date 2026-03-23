@@ -20,7 +20,7 @@ df= read.csv("https://github.com/franvillamil/AQM2/raw/refs/heads/master/dataset
 
 view(df)
 
-#2.1 Coverting tabular data to sf============================
+#2.1 Converting tabular data to sf============================
 
 #a) cover the events data frame to an sf object 
 
@@ -111,12 +111,30 @@ world_counts <- world%>%
 
 nrow(world_counts) == nrow(world) #TRUE
 
-#b) Make a cloropeth map
+#b) Make a choropeth map
 
-cloroplethmap = ggplot(world_counts) + 
+choroplethmap = ggplot(world_counts) + 
   geom_sf(aes(fill = n_events)) +
   scale_fill_distiller(palette = "Reds", direction = 1) + theme_minimal() + 
   labs(title = "Conflict Event Counts by Country", fill = "Number of Events")
 
-ggsave("cloroplethmap.png")
+ggsave("choroplethmap.png")
 
+#Both maps share a geographic pattern and show similar global hotspots. The plots differ in their visual representation, in 2.1c individual points are used while here points become national totals. 
+
+#c) log transformed map
+
+#make map with log-transformed counts to visualize variation less skewed 
+
+logmap = ggplot(world_counts) + geom_sf(aes(fill = log1p(n_events))) + scale_fill_distiller(palette = "YlOrRd", direction = 1, name = "Log(events+1") + theme_minimal() + labs(title = "Log Transformed Conflict Intensity")
+
+ggsave("logmap.png")
+
+#The log transformation accounts for countries with 0 events and is helpful because of the skewing in the data. The skewing allows to see the low end of the data.
+
+#2.5 Discussion =========================
+
+#a) A limitation of the spatial joint approach we used is the how it can miscalculate and get confused when events occur along a border. For an event that falls just outside a polygon because of small issues in the coordinate, I could add "join = st_within" the code for the points to fall inside the polygon.
+
+#b) 
+#The difference between st_join and left_join is that in st, the code uses geographic location while in left, its based on a specified common variable. I would prefer st_join when  we need to link two different spatial layers and left_join when merging non-spatial data.
