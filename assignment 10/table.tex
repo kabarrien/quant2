@@ -1,0 +1,28 @@
+\begin{table}
+\centering
+\begin{talltblr}[         %% tabularray outer open
+entry=none,label=none,
+note{}={+ p \num{< 0.1}, * p \num{< 0.05}, ** p \num{< 0.01}, *** p \num{< 0.001}},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]Q[]Q[]},
+hline{2}={1-4}{solid, black, 0.05em},
+hline{10}={1-4}{solid, black, 0.05em},
+hline{1}={1-4}{solid, black, 0.08em},
+hline{12}={1-4}{solid, black, 0.08em},
+column{2-4}={}{halign=c},
+column{1}={}{halign=l},
+}                     %% tabularray inner close
+& Simple Regression & Pooled OLS & Instructor FE \\
+(Intercept) & \num{4.254}*** & \num{4.338}*** &  \\
+& (\num{0.062}) & (\num{0.093}) &  \\
+Apct & \num{0.449}*** & \num{0.359}** & \num{0.306}*** \\
+& (\num{0.094}) & (\num{0.126}) & (\num{0.062}) \\
+Enrollment &  & \num{-0.000} & \num{-0.001} \\
+&  & (\num{0.001}) & (\num{0.001}) \\
+Required &  & \num{-0.122}+ & \num{-0.148}* \\
+&  & (\num{0.062}) & (\num{0.066}) \\
+R2 & \num{0.063} & \num{0.078} & \num{0.422} \\
+Num.Obs. & \num{710} & \num{710} & \num{710} \\
+\end{talltblr}
+\end{table}
